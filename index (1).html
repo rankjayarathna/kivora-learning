@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kivora Learning – Learn Through Play, Create Through Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Nunito:wght@400;500;600&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── CSS VARIABLES ── */
+    :root {
+      --sky:      #4A90E2;
+      --sky-dark: #2E6FC4;
+      --sky-lt:   #E8F4F8;
+      --yellow:   #FFD700;
+      --yellow-lt:#FFFACD;
+      --orange:   #FF8C42;
+      --orange-lt:#FFE4D6;
+      --green:    #52C41A;
+      --green-dk: #3A9A0E;
+      --green-lt: #F0FFF0;
+      --pink:     #FF69B4;
+      --pink-lt:  #FFE4F0;
+      --charcoal: #2C3E50;
+      --gray-mid: #95A5A6;
+      --gray-lt:  #ECF0F1;
+      --white:    #FFFFFF;
+      --success:  #27AE60;
+      --warning:  #E67E22;
+      --error:    #E74C3C;
+      --info:     #3498DB;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 32px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.15);
+    }
+
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      color: var(--charcoal);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ── TYPOGRAPHY ── */
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; line-height: 1.2; }
+    h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 800; }
+    h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; }
+    h3 { font-size: clamp(20px, 2.5vw, 28px); font-weight: 600; }
+    h4 { font-size: 18px; font-weight: 600; }
+    .btn { font-family: 'Fredoka', sans-serif; font-weight: 500; letter-spacing: 0.4px; }
+
+    /* ── UTILITY ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 80px 0; }
+    .section-title { text-align: center; margin-bottom: 12px; }
+    .section-sub  { text-align: center; color: var(--gray-mid); font-size: 17px; margin-bottom: 48px; }
+    .tag {
+      display: inline-block;
+      background: var(--sky-lt);
+      color: var(--sky);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 4px 14px;
+      border-radius: 99px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--sky); color: var(--white);
+      padding: 14px 28px; border-radius: var(--radius-sm);
+      font-size: 16px; font-weight: 500;
+      box-shadow: 0 4px 14px rgba(74,144,226,0.4);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--sky-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74,144,226,0.45); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--sky);
+      border: 2px solid var(--sky);
+      padding: 12px 26px; border-radius: var(--radius-sm);
+      font-size: 16px; font-weight: 500;
+      transition: background 0.2s, transform 0.15s;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { background: var(--sky-lt); transform: translateY(-2px); }
+    .btn-green {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--green); color: var(--white);
+      padding: 14px 28px; border-radius: var(--radius-sm);
+      font-size: 16px; font-weight: 500;
+      box-shadow: 0 4px 14px rgba(82,196,26,0.4);
+      transition: background 0.2s, transform 0.15s;
+      border: none; cursor: pointer;
+    }
+    .btn-green:hover { background: var(--green-dk); transform: translateY(-2px); }
+
+    /* ══════════════════════════════════
+       NAVIGATION
+    ══════════════════════════════════ */
+    .navbar {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 24px;
+      height: 68px;
+      display: flex; align-items: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Poppins', sans-serif; font-weight: 800;
+      font-size: 22px; color: var(--charcoal);
+    }
+    .nav-logo .logo-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--sky), var(--pink));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .nav-logo span { color: var(--sky); }
+    .nav-menu {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-menu a {
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-size: 14px; font-weight: 600;
+      color: var(--charcoal);
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .nav-menu a:hover { background: var(--sky-lt); color: var(--sky); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-signin {
+      font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 500;
+      color: var(--charcoal); padding: 8px 16px;
+      transition: color 0.15s;
+    }
+    .nav-signin:hover { color: var(--sky); }
+    .nav-cta {
+      font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 500;
+      background: var(--sky); color: var(--white);
+      padding: 10px 20px; border-radius: var(--radius-sm);
+      box-shadow: 0 3px 10px rgba(74,144,226,0.35);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--sky-dark); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
+    .hamburger span { width: 24px; height: 2.5px; background: var(--charcoal); border-radius: 2px; transition: 0.3s; }
+    .mobile-menu {
+      display: none; flex-direction: column; position: fixed;
+      top: 68px; left: 0; right: 0; bottom: 0;
+      background: var(--white); z-index: 999; padding: 24px;
+      overflow-y: auto; gap: 4px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 13px 16px; font-size: 16px; font-weight: 600;
+      border-radius: var(--radius-sm); color: var(--charcoal);
+      transition: background 0.15s;
+    }
+    .mobile-menu a:hover { background: var(--sky-lt); color: var(--sky); }
+    .mobile-menu .m-cta { background: var(--sky); color: var(--white); text-align: center; margin-top: 12px; }
+
+    /* ══════════════════════════════════
+       HERO
+    ══════════════════════════════════ */
+    .hero {
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, #EFF8FF 0%, #FFF8E7 40%, #F0FFF0 75%, #FFF0F5 100%);
+      min-height: 92vh;
+      display: flex; align-items: center;
+      padding: 60px 24px;
+    }
+    /* Floating blobs */
+    .hero-blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(70px); pointer-events: none;
+    }
+    .blob-1 { width: 480px; height: 480px; background: rgba(74,144,226,0.18); top: -80px; left: -120px; animation: float-slow 9s ease-in-out infinite; }
+    .blob-2 { width: 380px; height: 380px; background: rgba(255,215,0,0.22); bottom: -60px; right: -80px; animation: float-slow 11s ease-in-out infinite reverse; }
+    .blob-3 { width: 300px; height: 300px; background: rgba(255,105,180,0.16); top: 40%; left: 50%; animation: float-slow 13s ease-in-out infinite 2s; }
+    @keyframes float-slow {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-30px) scale(1.05); }
+    }
+    /* Floating shapes decoration */
+    .shape {
+      position: absolute; pointer-events: none;
+      animation: float-shape 6s ease-in-out infinite;
+    }
+    .shape-star { font-size: 28px; top: 12%; right: 15%; animation-delay: 0s; }
+    .shape-rocket { font-size: 36px; bottom: 22%; left: 8%; animation-delay: 1.5s; }
+    .shape-book { font-size: 30px; top: 60%; right: 8%; animation-delay: 3s; }
+    .shape-paint { font-size: 26px; top: 25%; left: 18%; animation-delay: 4.5s; }
+    @keyframes float-shape {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-18px) rotate(8deg); }
+    }
+
+    .hero-inner { max-width: 1200px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 60px; position: relative; }
+    .hero-content { flex: 1; min-width: 0; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white); border: 2px solid var(--yellow);
+      padding: 7px 18px; border-radius: 99px; font-family: 'Fredoka', sans-serif;
+      font-size: 15px; font-weight: 500; color: var(--charcoal);
+      margin-bottom: 24px; box-shadow: var(--shadow-sm);
+    }
+    .hero-tag .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.6; transform:scale(1.3); } }
+    .hero-title { margin-bottom: 24px; letter-spacing: -0.5px; }
+    .hero-title .line-highlight {
+      position: relative; display: inline-block;
+    }
+    .hero-title .line-highlight::after {
+      content: '';
+      position: absolute; left: 0; bottom: 4px; right: 0;
+      height: 12px; background: var(--yellow); opacity: 0.45;
+      border-radius: 3px; z-index: -1;
+    }
+    .hero-title .sky { color: var(--sky); }
+    .hero-desc { font-size: 18px; color: var(--gray-mid); line-height: 1.7; margin-bottom: 36px; max-width: 520px; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 40px; }
+    .hero-note { font-size: 13px; color: var(--gray-mid); display: flex; align-items: center; gap: 6px; }
+    .hero-note::before { content: '🔒'; font-size: 14px; }
+    .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+    .stat-item { text-align: left; }
+    .stat-num { font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 800; color: var(--sky); display: block; }
+    .stat-label { font-size: 13px; color: var(--gray-mid); }
+
+    .hero-visual { flex: 0 0 460px; }
+    .hero-card-stack { position: relative; height: 440px; }
+    .hero-main-card {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: 320px; background: var(--white);
+      border-radius: var(--radius-xl); padding: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.14);
+      z-index: 3;
+    }
+    .hmc-top { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .hmc-avatar {
+      width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--sky), var(--sky-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+    }
+    .hmc-info h4 { font-size: 16px; font-weight: 700; color: var(--charcoal); }
+    .hmc-info p  { font-size: 12px; color: var(--gray-mid); }
+    .hmc-progress-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .hmc-bar { height: 10px; background: var(--gray-lt); border-radius: 99px; overflow: hidden; margin-bottom: 20px; }
+    .hmc-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--sky), var(--pink)); width: 72%; animation: grow-bar 2s ease 0.5s both; }
+    @keyframes grow-bar { from { width: 0; } }
+    .hmc-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+    .hmc-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--sky-lt); color: var(--sky);
+      border-radius: 99px; padding: 6px 12px;
+      font-size: 12px; font-weight: 600;
+    }
+
+    .float-card {
+      position: absolute; background: var(--white);
+      border-radius: var(--radius-md); padding: 14px 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      display: flex; align-items: center; gap: 10px;
+      white-space: nowrap; z-index: 4;
+      animation: card-float 5s ease-in-out infinite;
+    }
+    @keyframes card-float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .fc-streak { top: 30px; right: -30px; animation-delay: 0s; }
+    .fc-badge  { bottom: 60px; left: -40px; animation-delay: 2s; }
+    .fc-icon { font-size: 28px; }
+    .fc-text strong { display: block; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700; }
+    .fc-text span   { font-size: 12px; color: var(--gray-mid); }
+
+    /* ══════════════════════════════════
+       GRADE LEVEL CARDS
+    ══════════════════════════════════ */
+    .grades { background: var(--white); }
+    .grades-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+    .grade-card {
+      border-radius: var(--radius-md); padding: 22px 16px;
+      text-align: center; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 2px solid transparent;
+      position: relative; overflow: hidden;
+    }
+    .grade-card::before {
+      content: ''; position: absolute; inset: 0;
+      opacity: 0.08; transition: opacity 0.2s;
+    }
+    .grade-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: currentColor; }
+    .grade-card:hover::before { opacity: 0.14; }
+    .grade-card.c1 { background: var(--sky-lt); color: var(--sky); }
+    .grade-card.c2 { background: var(--yellow-lt); color: #B8860B; }
+    .grade-card.c3 { background: var(--orange-lt); color: var(--orange); }
+    .grade-card.c4 { background: var(--green-lt); color: var(--green-dk); }
+    .grade-card.c5 { background: var(--pink-lt); color: var(--pink); }
+    .grade-card.c6 { background: #F3F0FF; color: #6C5CE7; }
+    .grade-emoji { font-size: 36px; margin-bottom: 10px; display: block; }
+    .grade-name { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--charcoal); }
+    .grade-age  { font-size: 12px; color: var(--gray-mid); margin-bottom: 10px; }
+    .grade-count { font-family: 'Fredoka', sans-serif; font-size: 13px; font-weight: 500; margin-bottom: 14px; }
+    .grade-btn {
+      display: block; width: 100%;
+      font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: 500;
+      padding: 9px 0; border-radius: 99px;
+      background: currentColor; color: var(--white);
+      transition: opacity 0.2s;
+    }
+    .grade-btn:hover { opacity: 0.85; color: var(--white); }
+
+    /* ══════════════════════════════════
+       SUBJECTS
+    ══════════════════════════════════ */
+    .subjects { background: var(--gray-lt); }
+    .subjects-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;
+    }
+    .subject-card {
+      background: var(--white); border-radius: var(--radius-lg);
+      padding: 32px 20px; text-align: center; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .subject-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 4px; border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+    .subject-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+    .sc-math::after   { background: var(--sky); }
+    .sc-read::after   { background: var(--orange); }
+    .sc-sci::after    { background: var(--green); }
+    .sc-social::after { background: var(--yellow); }
+    .sc-arts::after   { background: var(--pink); }
+    .subject-icon { font-size: 48px; margin-bottom: 14px; display: block; }
+    .subject-name { font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--charcoal); }
+    .subject-count { font-size: 13px; color: var(--gray-mid); margin-bottom: 16px; }
+    .subject-explore {
+      font-family: 'Fredoka', sans-serif; font-size: 14px;
+      display: inline-flex; align-items: center; gap: 4px;
+      font-weight: 500; transition: gap 0.2s;
+    }
+    .sc-math   .subject-explore { color: var(--sky); }
+    .sc-read   .subject-explore { color: var(--orange); }
+    .sc-sci    .subject-explore { color: var(--green); }
+    .sc-social .subject-explore { color: #B8860B; }
+    .sc-arts   .subject-explore { color: var(--pink); }
+    .subject-card:hover .subject-explore { gap: 10px; }
+
+    /* ══════════════════════════════════
+       TRENDING ACTIVITIES
+    ══════════════════════════════════ */
+    .trending { background: var(--white); }
+    .activities-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+    .activity-card {
+      border-radius: var(--radius-md); overflow: hidden;
+      background: var(--white); box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
+    }
+    .activity-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+    .ac-thumb {
+      height: 140px; display: flex; align-items: center; justify-content: center;
+      font-size: 56px; position: relative; overflow: hidden;
+    }
+    .ac-1 { background: linear-gradient(135deg, var(--sky-lt), var(--sky)); }
+    .ac-2 { background: linear-gradient(135deg, var(--yellow-lt), var(--yellow)); }
+    .ac-3 { background: linear-gradient(135deg, var(--orange-lt), var(--orange)); }
+    .ac-4 { background: linear-gradient(135deg, var(--green-lt), var(--green)); }
+    .ac-5 { background: linear-gradient(135deg, var(--pink-lt), var(--pink)); }
+    .ac-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(255,255,255,0.9); border-radius: 99px;
+      font-family: 'Fredoka', sans-serif; font-size: 11px; font-weight: 500;
+      padding: 3px 10px; color: var(--charcoal);
+    }
+    .ac-body { padding: 16px; }
+    .ac-title { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--charcoal); }
+    .ac-meta  { font-size: 12px; color: var(--gray-mid); margin-bottom: 12px; }
+    .ac-play {
+      display: block; width: 100%; text-align: center;
+      font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: 500;
+      padding: 8px; border-radius: var(--radius-sm);
+      background: var(--sky-lt); color: var(--sky);
+      transition: background 0.2s;
+    }
+    .ac-play:hover { background: var(--sky); color: var(--white); }
+
+    /* ══════════════════════════════════
+       POPULAR VIDEOS
+    ══════════════════════════════════ */
+    .videos { background: #FAFBFF; }
+    .videos-scroll { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 16px; scroll-snap-type: x mandatory; }
+    .videos-scroll::-webkit-scrollbar { height: 4px; }
+    .videos-scroll::-webkit-scrollbar-track { background: var(--gray-lt); border-radius: 2px; }
+    .videos-scroll::-webkit-scrollbar-thumb { background: var(--sky); border-radius: 2px; }
+    .video-card {
+      flex: 0 0 240px; border-radius: var(--radius-md); overflow: hidden;
+      background: var(--white); box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
+      scroll-snap-align: start;
+    }
+    .video-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+    .vc-thumb {
+      height: 136px; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .vc-1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .vc-2 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .vc-3 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+    .vc-4 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+    .vc-5 { background: linear-gradient(135deg, #fa709a, #fee140); }
+    .vc-6 { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+    .vc-play-btn {
+      width: 48px; height: 48px; background: rgba(255,255,255,0.9);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .video-card:hover .vc-play-btn { transform: scale(1.1); background: var(--white); }
+    .vc-duration {
+      position: absolute; bottom: 8px; right: 8px;
+      background: rgba(0,0,0,0.65); color: var(--white);
+      font-size: 11px; padding: 2px 8px; border-radius: 4px;
+    }
+    .vc-body { padding: 14px; }
+    .vc-title { font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--charcoal); }
+    .vc-meta  { font-size: 12px; color: var(--gray-mid); }
+    .section-link {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      color: var(--sky); font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 500;
+      margin-top: 28px; transition: gap 0.2s;
+    }
+    .section-link:hover { gap: 12px; }
+
+    /* ══════════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════════ */
+    .testimonials {
+      background: linear-gradient(160deg, var(--sky) 0%, #6C63FF 100%);
+      color: var(--white); text-align: center;
+    }
+    .testimonials .section-title { color: var(--white); }
+    .testimonials .section-sub   { color: rgba(255,255,255,0.75); }
+    .testi-carousel { position: relative; max-width: 680px; margin: 0 auto; }
+    .testi-slide { display: none; animation: fade-in 0.5s ease; }
+    .testi-slide.active { display: block; }
+    @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .testi-quote {
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-xl); padding: 36px 40px;
+      backdrop-filter: blur(10px); margin-bottom: 24px;
+    }
+    .testi-stars { font-size: 22px; margin-bottom: 18px; }
+    .testi-text { font-size: 18px; line-height: 1.7; font-weight: 500; color: rgba(255,255,255,0.95); margin-bottom: 20px; }
+    .testi-author { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px; }
+    .testi-role   { font-size: 13px; color: rgba(255,255,255,0.7); }
+    .testi-nav { display: flex; align-items: center; justify-content: center; gap: 16px; }
+    .testi-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white); font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .testi-btn:hover { background: rgba(255,255,255,0.35); }
+    .testi-dots { display: flex; gap: 8px; }
+    .testi-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: background 0.2s, transform 0.2s; }
+    .testi-dot.active { background: var(--white); transform: scale(1.3); }
+
+    /* ══════════════════════════════════
+       KEY FEATURES
+    ══════════════════════════════════ */
+    .features { background: var(--white); }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .feature-card {
+      background: var(--gray-lt); border-radius: var(--radius-lg);
+      padding: 32px 28px; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); background: var(--white); }
+    .feat-icon {
+      width: 60px; height: 60px; border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; margin-bottom: 18px;
+    }
+    .fi-1 { background: var(--sky-lt); }
+    .fi-2 { background: var(--yellow-lt); }
+    .fi-3 { background: var(--pink-lt); }
+    .fi-4 { background: var(--green-lt); }
+    .fi-5 { background: var(--orange-lt); }
+    .fi-6 { background: #F3F0FF; }
+    .feature-card h4 { font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+    .feature-card p  { color: var(--gray-mid); font-size: 15px; line-height: 1.6; }
+
+    /* ══════════════════════════════════
+       PRICING
+    ══════════════════════════════════ */
+    .pricing { background: var(--gray-lt); }
+    .pricing-toggle {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-bottom: 48px;
+    }
+    .toggle-label { font-weight: 600; color: var(--charcoal); }
+    .toggle-switch {
+      position: relative; width: 52px; height: 28px;
+      background: var(--sky); border-radius: 99px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-switch::after {
+      content: ''; position: absolute;
+      width: 22px; height: 22px; background: var(--white);
+      border-radius: 50%; top: 3px; left: 4px;
+      transition: left 0.2s;
+    }
+    .toggle-switch.yearly::after { left: 26px; }
+    .save-badge {
+      background: var(--green); color: var(--white);
+      font-family: 'Fredoka', sans-serif; font-size: 12px; font-weight: 500;
+      padding: 3px 10px; border-radius: 99px;
+    }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; margin: 0 auto; }
+    .price-card {
+      background: var(--white); border-radius: var(--radius-xl);
+      padding: 36px 30px; text-align: center;
+      border: 2px solid transparent;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .price-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .price-card.featured {
+      border-color: var(--sky); transform: scale(1.04);
+      box-shadow: 0 12px 40px rgba(74,144,226,0.25);
+    }
+    .price-card.featured:hover { transform: scale(1.04) translateY(-6px); }
+    .best-badge {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      background: var(--sky); color: var(--white);
+      font-family: 'Fredoka', sans-serif; font-size: 13px; font-weight: 500;
+      padding: 6px 20px; border-radius: 0 0 12px 12px;
+    }
+    .price-name { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; color: var(--gray-mid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; margin-top: 20px; }
+    .price-amount { font-family: 'Poppins', sans-serif; font-size: 44px; font-weight: 800; color: var(--charcoal); margin-bottom: 4px; }
+    .price-amount sup { font-size: 20px; vertical-align: super; font-weight: 600; }
+    .price-amount .period { font-size: 16px; font-weight: 400; color: var(--gray-mid); }
+    .price-desc { font-size: 13px; color: var(--gray-mid); margin-bottom: 24px; }
+    .price-features { text-align: left; margin-bottom: 28px; }
+    .price-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; padding: 7px 0; border-bottom: 1px solid var(--gray-lt); }
+    .price-features li:last-child { border-bottom: none; }
+    .price-features li::before { content: '✓'; color: var(--success); font-weight: 700; flex-shrink: 0; }
+    .price-features li.no::before { content: '✕'; color: var(--gray-mid); }
+    .price-cta {
+      display: block; width: 100%; text-align: center;
+      font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 500;
+      padding: 14px; border-radius: var(--radius-sm); border: none; cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .price-cta:hover { opacity: 0.88; transform: translateY(-2px); }
+    .cta-free     { background: var(--gray-lt); color: var(--charcoal); }
+    .cta-premium  { background: var(--sky); color: var(--white); box-shadow: 0 4px 14px rgba(74,144,226,0.4); }
+    .cta-plus     { background: linear-gradient(135deg, var(--sky), var(--pink)); color: var(--white); box-shadow: 0 4px 14px rgba(255,105,180,0.35); }
+    .pricing-note { text-align: center; margin-top: 28px; font-size: 14px; color: var(--gray-mid); }
+    .pricing-note strong { color: var(--success); }
+
+    /* ══════════════════════════════════
+       FINAL CTA BANNER
+    ══════════════════════════════════ */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--charcoal) 0%, #1a252f 100%);
+      text-align: center; padding: 100px 24px;
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top, rgba(74,144,226,0.25) 0%, transparent 65%),
+                  radial-gradient(ellipse at bottom-right, rgba(255,105,180,0.2) 0%, transparent 60%);
+    }
+    .cta-banner-content { position: relative; max-width: 680px; margin: 0 auto; }
+    .cta-banner h2 { color: var(--white); margin-bottom: 16px; }
+    .cta-banner p  { color: rgba(255,255,255,0.7); font-size: 18px; margin-bottom: 36px; }
+    .cta-banner-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; }
+    .cta-banner .btn-primary { background: var(--yellow); color: var(--charcoal); box-shadow: 0 4px 20px rgba(255,215,0,0.4); }
+    .cta-banner .btn-primary:hover { background: #e6c200; }
+    .cta-families { color: rgba(255,255,255,0.55); font-size: 13px; margin-top: 20px; }
+
+    /* ══════════════════════════════════
+       FOOTER
+    ══════════════════════════════════ */
+    .footer { background: var(--charcoal); color: rgba(255,255,255,0.8); }
+    .footer-top { padding: 60px 24px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto; }
+    .footer-brand .nav-logo { margin-bottom: 16px; }
+    .footer-brand .nav-logo .logo-icon, .footer-brand .nav-logo span { color: var(--white); }
+    .footer-brand p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.55); margin-bottom: 20px; }
+    .footer-socials { display: flex; gap: 10px; }
+    .social-btn {
+      width: 38px; height: 38px; border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;
+      font-size: 18px; transition: background 0.2s;
+    }
+    .social-btn:hover { background: var(--sky); }
+    .footer-col h5 { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 14px; color: rgba(255,255,255,0.55); transition: color 0.15s; }
+    .footer-col a:hover { color: var(--sky); }
+    .footer-bottom { padding: 20px 24px; }
+    .footer-bottom-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy  { font-size: 13px; color: rgba(255,255,255,0.4); }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a { font-size: 13px; color: rgba(255,255,255,0.4); transition: color 0.15s; }
+    .footer-legal a:hover { color: rgba(255,255,255,0.7); }
+
+    /* ══════════════════════════════════
+       SCROLL ANIMATIONS
+    ══════════════════════════════════ */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ══════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════ */
+    @media (max-width: 1100px) {
+      .hero-visual { flex: 0 0 380px; }
+      .grades-grid { grid-template-columns: repeat(3, 1fr); }
+      .subjects-grid { grid-template-columns: repeat(3, 1fr); }
+      .activities-grid { grid-template-columns: repeat(3, 1fr); }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 860px) {
+      .hero-inner { flex-direction: column; text-align: center; gap: 40px; }
+      .hero-desc { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { flex: none; width: 100%; max-width: 360px; }
+      .hero-card-stack { height: 360px; }
+      .hero-main-card { width: 270px; }
+      .subjects-grid { grid-template-columns: repeat(2, 1fr); }
+      .activities-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 380px; }
+      .price-card.featured { transform: scale(1); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-menu { display: none; }
+      .hamburger { display: flex; }
+    }
+    @media (max-width: 600px) {
+      .section { padding: 60px 0; }
+      .grades-grid { grid-template-columns: repeat(2, 1fr); }
+      .subjects-grid { grid-template-columns: 1fr 1fr; }
+      .activities-grid { grid-template-columns: 1fr 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom-inner { flex-direction: column; align-items: flex-start; }
+      .hero { padding: 40px 20px; min-height: auto; }
+      .testi-quote { padding: 28px 24px; }
+      .testi-text { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══ -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="logo-icon">🎓</span>
+      Kivora<span>Learning</span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="#grades">Learn by Grade</a></li>
+      <li><a href="#subjects">Explore Subjects</a></li>
+      <li><a href="#trending">Learning Tools</a></li>
+      <li><a href="#testimonials">For Parents</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="skill.html" class="nav-signin">Sign In</a>
+      <a href="skill.html" class="nav-cta">Start Free Trial</a>
+      <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a>
+  <a href="#grades">📚 Learn by Grade</a>
+  <a href="#subjects">🔬 Explore Subjects</a>
+  <a href="#trending">🎮 Learning Tools</a>
+  <a href="#testimonials">👨‍👩‍👧 For Parents</a>
+  <a href="#pricing">💳 Pricing</a>
+  <a href="skill.html">Sign In</a>
+  <a href="skill.html" class="m-cta">Start Free Trial →</a>
+</div>
+
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-blob blob-3"></div>
+  <div class="shape shape-star">⭐</div>
+  <div class="shape shape-rocket">🚀</div>
+  <div class="shape shape-book">📖</div>
+  <div class="shape shape-paint">🎨</div>
+
+  <div class="hero-inner">
+    <div class="hero-content reveal">
+      <div class="hero-tag"><span class="dot"></span> 50,000+ Happy Families</div>
+      <h1 class="hero-title">
+        Learn Through <span class="line-highlight">Play</span>,<br>
+        Create Through<br>
+        <span class="sky">Learning</span>
+      </h1>
+      <p class="hero-desc">
+        Fun, interactive lessons for children aged 3–10. Math, reading, science, and more —
+        all wrapped in adventures kids actually love.
+      </p>
+      <div class="hero-actions">
+        <a href="skill.html" class="btn btn-primary">🚀 Start Learning Free</a>
+        <a href="#trending" class="btn btn-secondary">▶ See Activities</a>
+      </div>
+      <p class="hero-note">No credit card required · Cancel anytime</p>
+      <div class="hero-stats">
+        <div class="stat-item"><span class="stat-num">5,000+</span><span class="stat-label">Learning Skills</span></div>
+        <div class="stat-item"><span class="stat-num">50K+</span><span class="stat-label">Happy Families</span></div>
+        <div class="stat-item"><span class="stat-num">6</span><span class="stat-label">Grade Levels</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal" style="transition-delay:0.2s">
+      <div class="hero-card-stack">
+        <div class="float-card fc-streak">
+          <span class="fc-icon">🔥</span>
+          <div class="fc-text"><strong>7-Day Streak!</strong><span>Keep it up, Emma!</span></div>
+        </div>
+        <div class="hero-main-card">
+          <div class="hmc-top">
+            <div class="hmc-avatar">👧</div>
+            <div class="hmc-info">
+              <h4>Emma's Progress</h4>
+              <p>Pre-K · Math Adventurer</p>
+            </div>
+          </div>
+          <div class="hmc-progress-label"><span>Counting 1–10</span><span>72%</span></div>
+          <div class="hmc-bar"><div class="hmc-fill"></div></div>
+          <div class="hmc-badges">
+            <div class="hmc-badge">🏅 Math Star</div>
+            <div class="hmc-badge">⭐ 245 pts</div>
+          </div>
+        </div>
+        <div class="float-card fc-badge">
+          <span class="fc-icon">🏆</span>
+          <div class="fc-text"><strong>New Badge!</strong><span>Reading Champion</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ GRADE LEVELS ══ -->
+<section class="section grades" id="grades">
+  <div class="container">
+    <div class="tag">Learn by Grade</div>
+    <h2 class="section-title">Find the Perfect Level</h2>
+    <p class="section-sub">Age-appropriate content for every step of your child's learning journey</p>
+    <div class="grades-grid">
+      <a href="skill.html" class="grade-card c1 reveal">
+        <span class="grade-emoji">🌱</span>
+        <div class="grade-name">Pre-K</div>
+        <div class="grade-age">Ages 3–4</div>
+        <div class="grade-count">200+ Skills</div>
+        <span class="grade-btn btn">Start →</span>
+      </a>
+      <a href="skill.html" class="grade-card c2 reveal" style="transition-delay:0.05s">
+        <span class="grade-emoji">🌟</span>
+        <div class="grade-name">Kindergarten</div>
+        <div class="grade-age">Ages 5–6</div>
+        <div class="grade-count">250+ Skills</div>
+        <span class="grade-btn btn">Start →</span>
+      </a>
+      <a href="skill.html" class="grade-card c3 reveal" style="transition-delay:0.1s">
+        <span class="grade-emoji">🎒</span>
+        <div class="grade-name">Grade 1</div>
+        <div class="grade-age">Ages 6–7</div>
+        <div class="grade-count">300+ Skills</div>
+        <span class="grade-btn btn">Start →</span>
+      </a>
+      <a href="skill.html" class="grade-card c4 reveal" style="transition-delay:0.15s">
+        <span class="grade-emoji">📐</span>
+        <div class="grade-name">Grade 2</div>
+        <div class="grade-age">Ages 7–8</div>
+        <div class="grade-count">320+ Skills</div>
+        <span class="grade-btn btn">Start →</span>
+      </a>
+      <a href="skill.html" class="grade-card c5 reveal" style="transition-delay:0.2s">
+        <span class="grade-emoji">🔬</span>
+        <div class="grade-name">Grade 3</div>
+        <div class="grade-age">Ages 8–9</div>
+        <div class="grade-count">350+ Skills</div>
+        <span class="grade-btn btn">Start →</span>
+      </a>
+      <a href="skill.html" class="grade-card c6 reveal" style="transition-delay:0.25s">
+        <span class="grade-emoji">🏆</span>
+        <div class="grade-name">Grades 4–5</div>
+        <div class="grade-age">Ages 9–11</div>
+        <div class="grade-count">400+ Skills</div>
+        <span class="grade-btn btn">Start →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ SUBJECTS ══ -->
+<section class="section subjects" id="subjects">
+  <div class="container">
+    <div class="tag">Explore Subjects</div>
+    <h2 class="section-title">Every Subject, Every Kid</h2>
+    <p class="section-sub">Thousands of activities across five engaging subject areas</p>
+    <div class="subjects-grid">
+      <a href="skill.html" class="subject-card sc-math reveal">
+        <span class="subject-icon">📐</span>
+        <div class="subject-name">Math</div>
+        <div class="subject-count">1,500+ Skills</div>
+        <span class="subject-explore">Explore → </span>
+      </a>
+      <a href="puzzle.html" class="subject-card sc-read reveal" style="transition-delay:0.05s">
+        <span class="subject-icon">📚</span>
+        <div class="subject-name">Language Arts</div>
+        <div class="subject-count">1,000+ Skills</div>
+        <span class="subject-explore">Explore →</span>
+      </a>
+      <a href="memory.html" class="subject-card sc-sci reveal" style="transition-delay:0.1s">
+        <span class="subject-icon">🔬</span>
+        <div class="subject-name">Science</div>
+        <div class="subject-count">800+ Skills</div>
+        <span class="subject-explore">Explore →</span>
+      </a>
+      <a href="skill.html" class="subject-card sc-social reveal" style="transition-delay:0.15s">
+        <span class="subject-icon">🏛️</span>
+        <div class="subject-name">Social Studies</div>
+        <div class="subject-count">600+ Skills</div>
+        <span class="subject-explore">Explore →</span>
+      </a>
+      <a href="coloring.html" class="subject-card sc-arts reveal" style="transition-delay:0.2s">
+        <span class="subject-icon">🎨</span>
+        <div class="subject-name">Creative Arts</div>
+        <div class="subject-count">700+ Skills</div>
+        <span class="subject-explore">Explore →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ TRENDING ACTIVITIES ══ -->
+<section class="section trending" id="trending">
+  <div class="container">
+    <div class="tag">Trending This Week</div>
+    <h2 class="section-title">Popular Right Now 🔥</h2>
+    <p class="section-sub">The activities kids love most this week</p>
+    <div class="activities-grid">
+      <div class="activity-card reveal">
+        <div class="ac-thumb ac-1"><span class="ac-badge">Pre-K</span>🔢</div>
+        <div class="ac-body">
+          <div class="ac-title">Counting 1–10</div>
+          <div class="ac-meta">Math · 15 min · ⭐⭐⭐⭐⭐</div>
+          <a href="skill.html" class="ac-play">▶ Play Now</a>
+        </div>
+      </div>
+      <div class="activity-card reveal" style="transition-delay:0.05s">
+        <div class="ac-thumb ac-2"><span class="ac-badge">Kinder</span>🔤</div>
+        <div class="ac-body">
+          <div class="ac-title">Letter Sounds</div>
+          <div class="ac-meta">Reading · 10 min · ⭐⭐⭐⭐⭐</div>
+          <a href="coloring.html" class="ac-play">▶ Play Now</a>
+        </div>
+      </div>
+      <div class="activity-card reveal" style="transition-delay:0.1s">
+        <div class="ac-thumb ac-3"><span class="ac-badge">Grade 1</span>➕</div>
+        <div class="ac-body">
+          <div class="ac-title">Addition Facts</div>
+          <div class="ac-meta">Math · 12 min · ⭐⭐⭐⭐⭐</div>
+          <a href="puzzle.html" class="ac-play">▶ Play Now</a>
+        </div>
+      </div>
+      <div class="activity-card reveal" style="transition-delay:0.15s">
+        <div class="ac-thumb ac-4"><span class="ac-badge">Pre-K</span>🦋</div>
+        <div class="ac-body">
+          <div class="ac-title">Animal World</div>
+          <div class="ac-meta">Science · 8 min · ⭐⭐⭐⭐⭐</div>
+          <a href="memory.html" class="ac-play">▶ Play Now</a>
+        </div>
+      </div>
+      <div class="activity-card reveal" style="transition-delay:0.2s">
+        <div class="ac-thumb ac-5"><span class="ac-badge">Kinder</span>🎨</div>
+        <div class="ac-body">
+          <div class="ac-title">Color My World</div>
+          <div class="ac-meta">Creative · 20 min · ⭐⭐⭐⭐⭐</div>
+          <a href="coloring.html" class="ac-play">▶ Play Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ POPULAR VIDEOS ══ -->
+<section class="section videos">
+  <div class="container">
+    <div class="tag">Watch & Learn</div>
+    <h2 class="section-title">Popular Videos</h2>
+    <p class="section-sub">Short, engaging videos that make learning stick</p>
+    <div class="videos-scroll reveal">
+      <div class="video-card">
+        <div class="vc-thumb vc-1"><div class="vc-play-btn">▶</div><span class="vc-duration">3:45</span></div>
+        <div class="vc-body"><div class="vc-title">Phonics Song A–Z</div><div class="vc-meta">Language · Pre-K</div></div>
+      </div>
+      <div class="video-card">
+        <div class="vc-thumb vc-2"><div class="vc-play-btn">▶</div><span class="vc-duration">8:30</span></div>
+        <div class="vc-body"><div class="vc-title">Story Time: Sleepy Dragon</div><div class="vc-meta">Reading · Pre-K</div></div>
+      </div>
+      <div class="video-card">
+        <div class="vc-thumb vc-3"><div class="vc-play-btn">▶</div><span class="vc-duration">5:12</span></div>
+        <div class="vc-body"><div class="vc-title">Counting Adventure</div><div class="vc-meta">Math · Kinder</div></div>
+      </div>
+      <div class="video-card">
+        <div class="vc-thumb vc-4"><div class="vc-play-btn">▶</div><span class="vc-duration">4:20</span></div>
+        <div class="vc-body"><div class="vc-title">Amazing Animals</div><div class="vc-meta">Science · Grade 1</div></div>
+      </div>
+      <div class="video-card">
+        <div class="vc-thumb vc-5"><div class="vc-play-btn">▶</div><span class="vc-duration">6:05</span></div>
+        <div class="vc-body"><div class="vc-title">Art with Colors</div><div class="vc-meta">Creative · All Ages</div></div>
+      </div>
+      <div class="video-card">
+        <div class="vc-thumb vc-6"><div class="vc-play-btn">▶</div><span class="vc-duration">7:15</span></div>
+        <div class="vc-body"><div class="vc-title">Shape Explorer</div><div class="vc-meta">Math · Pre-K</div></div>
+      </div>
+    </div>
+    <a href="skill.html" class="section-link">View All Activities →</a>
+  </div>
+</section>
+
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="section testimonials" id="testimonials">
+  <div class="container">
+    <div class="tag" style="background:rgba(255,255,255,0.2);color:white">What Parents Say</div>
+    <h2 class="section-title">Loved by 50,000+ Families</h2>
+    <p class="section-sub">Real stories from real parents</p>
+    <div class="testi-carousel">
+      <div class="testi-slide active">
+        <div class="testi-quote">
+          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <p class="testi-text">"My daughter loves Kivora! She's improving so fast and actually asks to do more activities. Within two months her reading level jumped significantly. Highly recommended!"</p>
+          <div class="testi-author">Sarah Johnson</div>
+          <div class="testi-role">Mom of Emma, Age 6 · Florida</div>
+        </div>
+      </div>
+      <div class="testi-slide">
+        <div class="testi-quote">
+          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <p class="testi-text">"As a teacher and parent, I've tried many platforms. Kivora stands out because it genuinely adapts to each child. My son went from dreading math to requesting 'just one more game' every night!"</p>
+          <div class="testi-author">Marcus Thompson</div>
+          <div class="testi-role">Dad of Noah, Age 8 · California</div>
+        </div>
+      </div>
+      <div class="testi-slide">
+        <div class="testi-quote">
+          <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          <p class="testi-text">"The parent dashboard is brilliant — I can see exactly what Lily is working on and where she needs extra help. The weekly reports give me real conversation starters for the dinner table."</p>
+          <div class="testi-author">Priya Kapoor</div>
+          <div class="testi-role">Mom of Lily, Age 5 · Texas</div>
+        </div>
+      </div>
+      <div class="testi-nav">
+        <button class="testi-btn" onclick="prevSlide()">‹</button>
+        <div class="testi-dots">
+          <div class="testi-dot active" onclick="goSlide(0)"></div>
+          <div class="testi-dot" onclick="goSlide(1)"></div>
+          <div class="testi-dot" onclick="goSlide(2)"></div>
+        </div>
+        <button class="testi-btn" onclick="nextSlide()">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ KEY FEATURES ══ -->
+<section class="section features">
+  <div class="container">
+    <div class="tag">Why Kivora</div>
+    <h2 class="section-title">Built for Young Learners</h2>
+    <p class="section-sub">Everything parents want, everything kids enjoy</p>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feat-icon fi-1">🎯</div>
+        <h4>Adaptive Learning</h4>
+        <p>Smart activities that adjust to your child's pace and level, ensuring they're always challenged but never overwhelmed.</p>
+      </div>
+      <div class="feature-card reveal" style="transition-delay:0.1s">
+        <div class="feat-icon fi-2">📊</div>
+        <h4>Progress Tracking</h4>
+        <p>See real-time improvements with detailed skill reports, weekly summaries, and milestone badges for every achievement.</p>
+      </div>
+      <div class="feature-card reveal" style="transition-delay:0.2s">
+        <div class="feat-icon fi-3">🎨</div>
+        <h4>Creative Content</h4>
+        <p>Coloring pages, stories, crafts, and imaginative activities that nurture creativity alongside academic growth.</p>
+      </div>
+      <div class="feature-card reveal" style="transition-delay:0.05s">
+        <div class="feat-icon fi-4">📱</div>
+        <h4>Works Everywhere</h4>
+        <p>Full access on desktop, tablet, and phone. Learning never stops, whether at home or on the go.</p>
+      </div>
+      <div class="feature-card reveal" style="transition-delay:0.15s">
+        <div class="feat-icon fi-5">👨‍👩‍👧</div>
+        <h4>Parent Tools</h4>
+        <p>A dedicated parent dashboard with AI-powered recommendations so you always know how to support your child.</p>
+      </div>
+      <div class="feature-card reveal" style="transition-delay:0.25s">
+        <div class="feat-icon fi-6">🔐</div>
+        <h4>Safe & Secure</h4>
+        <p>Zero ads, COPPA compliant, and fully moderated. A trusted environment where kids can explore and learn freely.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ PRICING ══ -->
+<section class="section pricing" id="pricing">
+  <div class="container">
+    <div class="tag">Simple Pricing</div>
+    <h2 class="section-title">Choose Your Plan</h2>
+    <p class="section-sub">Start free — upgrade anytime. No surprises, no commitment.</p>
+    <div class="pricing-toggle">
+      <span class="toggle-label">Monthly</span>
+      <div class="toggle-switch" id="billingToggle" onclick="toggleBilling()"></div>
+      <span class="toggle-label">Annual</span>
+      <span class="save-badge">Save 25%</span>
+    </div>
+    <div class="pricing-grid">
+      <!-- FREE -->
+      <div class="price-card reveal">
+        <div class="price-name">Free</div>
+        <div class="price-amount"><sup>$</sup>0<span class="period">/mo</span></div>
+        <div class="price-desc">Perfect for getting started</div>
+        <ul class="price-features">
+          <li>100 learning skills</li>
+          <li>Basic videos & stories</li>
+          <li>Simple progress reports</li>
+          <li>1 child profile</li>
+          <li class="no">Printable worksheets</li>
+          <li class="no">All subjects unlocked</li>
+          <li class="no">Parent dashboard</li>
+        </ul>
+        <a href="skill.html" class="price-cta cta-free btn">Get Started Free</a>
+      </div>
+      <!-- PREMIUM -->
+      <div class="price-card featured reveal" style="transition-delay:0.1s">
+        <div class="best-badge">⭐ Best Value</div>
+        <div class="price-name">Premium Family</div>
+        <div class="price-amount"><sup>$</sup><span class="monthly-price">10.99</span><span class="period">/mo</span></div>
+        <div class="price-desc">Most popular for families</div>
+        <ul class="price-features">
+          <li>5,000+ learning skills</li>
+          <li>All videos, stories & games</li>
+          <li>Detailed progress reports</li>
+          <li>Up to 3 child profiles</li>
+          <li>Unlimited printables</li>
+          <li>All 5 subjects unlocked</li>
+          <li>Full parent dashboard</li>
+        </ul>
+        <a href="skill.html" class="price-cta cta-premium btn">Start 30-Day Free Trial</a>
+      </div>
+      <!-- PREMIUM PLUS -->
+      <div class="price-card reveal" style="transition-delay:0.2s">
+        <div class="price-name">Premium Plus</div>
+        <div class="price-amount"><sup>$</sup><span class="plus-price">19.99</span><span class="period">/mo</span></div>
+        <div class="price-desc">Everything + offline access</div>
+        <ul class="price-features">
+          <li>Everything in Premium</li>
+          <li>Offline mode access</li>
+          <li>Up to 5 child profiles</li>
+          <li>Priority support</li>
+          <li>Printable bundle downloads</li>
+          <li>Early access to new content</li>
+          <li>1-on-1 learning guidance</li>
+        </ul>
+        <a href="skill.html" class="price-cta cta-plus btn">Start 30-Day Free Trial</a>
+      </div>
+    </div>
+    <p class="pricing-note"><strong>✓ 30-Day Money Back Guarantee</strong> &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; No credit card required for free trial</p>
+  </div>
+</section>
+
+
+<!-- ══ CTA BANNER ══ -->
+<section class="cta-banner">
+  <div class="cta-banner-content">
+    <h2>Ready to Start Your Child's<br>Learning Journey? 🚀</h2>
+    <p>Join thousands of families who've discovered that learning can be the most fun part of a child's day.</p>
+    <div class="cta-banner-actions">
+      <a href="skill.html" class="btn btn-primary btn">🎉 Start Free 30-Day Trial</a>
+      <a href="#trending" class="btn btn-secondary" style="border-color:rgba(255,255,255,0.5);color:white;">See Activities</a>
+    </div>
+    <p class="cta-families">🏠 Join 50,000+ Happy Families &nbsp;·&nbsp; No credit card required</p>
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="margin-bottom:16px">
+          <span class="logo-icon">🎓</span> Kivora<span>Learning</span>
+        </div>
+        <p>Making learning irresistible for children aged 3–10. Fun, smart, and safe — always.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn">📘</a>
+          <a href="#" class="social-btn">🐦</a>
+          <a href="#" class="social-btn">📸</a>
+          <a href="#" class="social-btn">▶️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="skill.html">Learning Skills</a></li>
+          <li><a href="memory.html">Games</a></li>
+          <li><a href="skill.html">Videos</a></li>
+          <li><a href="skill.html">Printables</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Parent Guide</a></li>
+          <li><a href="#">Safety</a></li>
+          <li><a href="#">Accessibility</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">COPPA Compliance</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <span class="footer-copy">© 2024 Kivora Learning. All rights reserved. Made with ❤️ for curious kids everywhere.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  /* ── Mobile Menu ── */
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('open');
+  }
+
+  /* ── Scroll Reveal ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── Testimonial Carousel ── */
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.testi-slide');
+  const dots   = document.querySelectorAll('.testi-dot');
+  function goSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = (n + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+  function nextSlide() { goSlide(currentSlide + 1); }
+  function prevSlide() { goSlide(currentSlide - 1); }
+  setInterval(() => nextSlide(), 5000);
+
+  /* ── Pricing Toggle ── */
+  let isYearly = false;
+  function toggleBilling() {
+    isYearly = !isYearly;
+    document.getElementById('billingToggle').classList.toggle('yearly', isYearly);
+    document.querySelector('.monthly-price').textContent = isYearly ? '8.24' : '10.99';
+    document.querySelector('.plus-price').textContent    = isYearly ? '14.99' : '19.99';
+  }
+</script>
+</body>
+</html>
