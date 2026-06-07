@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kivora Learning – Learn Through Play, Create Through Learning</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-blue: #4A90E2;
+    --sunny-yellow: #FFD700;
+    --warm-orange: #FF8C42;
+    --fresh-green: #52C41A;
+    --soft-pink: #FF69B4;
+    --light-blue-bg: #E8F4F8;
+    --light-yellow-hl: #FFFACD;
+    --light-orange-acc: #FFE4D6;
+    --light-green-suc: #F0FFF0;
+    --light-pink-cre: #FFE4F0;
+    --dark-charcoal: #2C3E50;
+    --medium-gray: #95A5A6;
+    --light-gray: #ECF0F1;
+    --white: #FFFFFF;
+    --success-green: #27AE60;
+    --warning-orange: #E67E22;
+    --error-red: #E74C3C;
+    --info-blue: #3498DB;
+    --radius-card: 20px;
+    --radius-btn: 50px;
+    --shadow-card: 0 8px 30px rgba(74,144,226,0.13);
+    --shadow-hover: 0 16px 40px rgba(74,144,226,0.22);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    color: var(--dark-charcoal);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--white);
+    box-shadow: 0 2px 16px rgba(44,62,80,0.08);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 70px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.6rem; font-weight: 800;
+    color: var(--sky-blue); text-decoration: none;
+  }
+  .nav-logo span.owl { font-size: 1.9rem; }
+  .nav-logo .dot { color: var(--warm-orange); }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    font-weight: 700; font-size: 0.95rem;
+    color: var(--dark-charcoal); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--sky-blue); }
+  .nav-right { display: flex; align-items: center; gap: 1rem; }
+  .btn-signin {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700; font-size: 0.9rem;
+    color: var(--sky-blue); background: transparent;
+    border: 2px solid var(--sky-blue);
+    padding: .45rem 1.2rem; border-radius: var(--radius-btn);
+    cursor: pointer; transition: all .2s;
+  }
+  .btn-signin:hover { background: var(--sky-blue); color: var(--white); }
+  .btn-join {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 0.9rem;
+    color: var(--white); background: var(--warm-orange);
+    border: none; padding: .5rem 1.4rem; border-radius: var(--radius-btn);
+    cursor: pointer; transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 4px 14px rgba(255,140,66,0.35);
+  }
+  .btn-join:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(255,140,66,0.45); }
+  .nav-search { font-size: 1.2rem; cursor: pointer; color: var(--medium-gray); background: none; border: none; }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #E8F4F8 0%, #FFF9E8 40%, #FFE4F0 100%);
+    min-height: 580px;
+    display: flex; align-items: center;
+    padding: 5rem 5vw;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 70% 50%, rgba(74,144,226,0.08) 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(255,105,180,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  /* Floating blobs */
+  .blob { position: absolute; border-radius: 50%; opacity: 0.25; animation: float 6s ease-in-out infinite; }
+  .blob-1 { width: 300px; height: 300px; background: var(--sunny-yellow); top: -80px; right: 8%; animation-delay: 0s; }
+  .blob-2 { width: 180px; height: 180px; background: var(--soft-pink); bottom: -40px; right: 28%; animation-delay: 1.5s; }
+  .blob-3 { width: 120px; height: 120px; background: var(--sky-blue); top: 30%; right: 5%; animation-delay: 3s; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+
+  .hero-content { position: relative; z-index: 2; max-width: 600px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--white); border-radius: 50px; padding: .35rem 1rem;
+    font-weight: 700; font-size: .82rem; color: var(--warm-orange);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem; animation: slideDown .6s ease both;
+  }
+  @keyframes slideDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+  .hero-badge .dot-badge { width: 8px; height: 8px; border-radius: 50%; background: var(--warm-orange); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4)} }
+
+  .hero h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 800; line-height: 1.15;
+    color: var(--dark-charcoal);
+    animation: slideUp .7s ease .1s both;
+  }
+  .hero h1 .accent { color: var(--sky-blue); }
+  .hero h1 .accent2 { color: var(--warm-orange); }
+  @keyframes slideUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+  .hero-sub {
+    font-size: 1.1rem; color: var(--medium-gray);
+    margin: 1.2rem 0 2rem;
+    font-weight: 600; line-height: 1.6;
+    animation: slideUp .7s ease .2s both;
+  }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; animation: slideUp .7s ease .3s both; }
+  .btn-primary {
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.05rem;
+    background: var(--sky-blue); color: var(--white);
+    border: none; padding: .85rem 2.2rem; border-radius: var(--radius-btn);
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 6px 20px rgba(74,144,226,0.4);
+    transition: transform .2s, box-shadow .2s;
+    display: inline-flex; align-items: center; gap: .5rem;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(74,144,226,0.5); }
+  .btn-secondary {
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1rem;
+    background: transparent; color: var(--dark-charcoal);
+    border: 2px solid var(--light-gray); padding: .83rem 1.8rem; border-radius: var(--radius-btn);
+    cursor: pointer; text-decoration: none; transition: border-color .2s, color .2s;
+    display: inline-flex; align-items: center; gap: .5rem;
+  }
+  .btn-secondary:hover { border-color: var(--sky-blue); color: var(--sky-blue); }
+  .hero-no-cc {
+    font-size: .82rem; color: var(--medium-gray); margin-top: .9rem;
+    animation: slideUp .7s ease .4s both;
+  }
+
+  /* Hero illustration floaties */
+  .hero-floaties {
+    position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+    z-index: 2; display: flex; flex-wrap: wrap; gap: 1rem;
+    width: 320px; justify-content: center;
+  }
+  .floaty-card {
+    background: var(--white); border-radius: 18px;
+    padding: 1rem 1.2rem; box-shadow: var(--shadow-card);
+    display: flex; flex-direction: column; align-items: center; gap: .3rem;
+    font-weight: 800; font-size: .88rem; color: var(--dark-charcoal);
+    animation: floatCard 5s ease-in-out infinite;
+    width: 130px; text-align: center;
+  }
+  .floaty-card:nth-child(2) { animation-delay: 1s; }
+  .floaty-card:nth-child(3) { animation-delay: 2s; }
+  .floaty-card:nth-child(4) { animation-delay: .5s; }
+  @keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .floaty-card .emoji { font-size: 2.2rem; }
+  .floaty-card small { font-size: .72rem; font-weight: 600; color: var(--medium-gray); }
+
+  /* ─── SECTION SHARED ─── */
+  section { padding: 5rem 5vw; }
+  .section-label {
+    font-size: .78rem; font-weight: 800; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--warm-orange);
+    margin-bottom: .6rem;
+  }
+  .section-title {
+    font-family: 'Baloo 2', cursive; font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+    font-weight: 800; color: var(--dark-charcoal); margin-bottom: .5rem;
+  }
+  .section-sub { font-size: 1rem; color: var(--medium-gray); font-weight: 600; margin-bottom: 2.5rem; }
+
+  /* ─── GRADE LEVELS ─── */
+  .grades-section { background: var(--light-blue-bg); }
+  .grade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.2rem;
+  }
+  .grade-card {
+    background: var(--white); border-radius: var(--radius-card);
+    padding: 1.5rem 1rem; text-align: center;
+    box-shadow: var(--shadow-card);
+    cursor: pointer; transition: transform .2s, box-shadow .2s;
+    border-top: 5px solid var(--sky-blue);
+    position: relative; overflow: hidden;
+  }
+  .grade-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+  .grade-card:nth-child(2) { border-top-color: var(--sunny-yellow); }
+  .grade-card:nth-child(3) { border-top-color: var(--warm-orange); }
+  .grade-card:nth-child(4) { border-top-color: var(--fresh-green); }
+  .grade-card:nth-child(5) { border-top-color: var(--soft-pink); }
+  .grade-card:nth-child(6) { border-top-color: var(--info-blue); }
+  .grade-card:nth-child(7) { border-top-color: var(--warning-orange); }
+  .grade-card:nth-child(8) { border-top-color: var(--success-green); }
+  .grade-emoji { font-size: 2.5rem; margin-bottom: .5rem; }
+  .grade-name { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.05rem; margin-bottom: .2rem; }
+  .grade-age { font-size: .78rem; color: var(--medium-gray); font-weight: 600; margin-bottom: .6rem; }
+  .grade-count { font-size: .8rem; font-weight: 700; color: var(--sky-blue); margin-bottom: .8rem; }
+  .grade-count span { font-size: 1.2rem; font-weight: 900; }
+  .btn-start {
+    background: var(--light-blue-bg); color: var(--sky-blue);
+    border: none; padding: .4rem 1rem; border-radius: 50px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .8rem;
+    cursor: pointer; transition: background .2s, color .2s;
+  }
+  .btn-start:hover { background: var(--sky-blue); color: var(--white); }
+
+  /* ─── SUBJECTS ─── */
+  .subjects-section { background: var(--white); }
+  .subject-tiles {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.2rem;
+  }
+  .subject-tile {
+    border-radius: var(--radius-card); padding: 2rem 1.2rem;
+    display: flex; flex-direction: column; gap: .7rem;
+    cursor: pointer; transition: transform .2s, box-shadow .2s;
+    box-shadow: var(--shadow-card); position: relative; overflow: hidden;
+  }
+  .subject-tile:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+  .subject-tile.math { background: linear-gradient(135deg, #E8F4F8 0%, #c8e6f8 100%); }
+  .subject-tile.reading { background: linear-gradient(135deg, #FFFACD 0%, #fff0a0 100%); }
+  .subject-tile.science { background: linear-gradient(135deg, #F0FFF0 0%, #c8f5c8 100%); }
+  .subject-tile.social { background: linear-gradient(135deg, #FFE4D6 0%, #ffcbaa 100%); }
+  .subject-tile.arts { background: linear-gradient(135deg, #FFE4F0 0%, #ffbbd8 100%); }
+  .subject-icon { font-size: 2.8rem; }
+  .subject-name { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.15rem; }
+  .subject-count { font-size: .82rem; font-weight: 700; color: var(--medium-gray); }
+  .subject-link { font-size: .85rem; font-weight: 800; color: var(--sky-blue); text-decoration: none; margin-top: auto; }
+  .subject-link:hover { text-decoration: underline; }
+
+  /* ─── TRENDING ─── */
+  .trending-section { background: var(--light-yellow-hl); }
+  .activity-carousel { display: flex; gap: 1.2rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
+  .activity-carousel::-webkit-scrollbar { display: none; }
+  .activity-card {
+    flex: 0 0 220px; background: var(--white); border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card); overflow: hidden;
+    cursor: pointer; transition: transform .2s, box-shadow .2s;
+  }
+  .activity-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+  .activity-thumb {
+    height: 120px; display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem; font-weight: 900;
+  }
+  .activity-thumb.blue { background: linear-gradient(135deg, #4A90E2 0%, #74b5f7 100%); }
+  .activity-thumb.yellow { background: linear-gradient(135deg, #FFD700 0%, #ffe066 100%); }
+  .activity-thumb.orange { background: linear-gradient(135deg, #FF8C42 0%, #ffaf78 100%); }
+  .activity-thumb.green { background: linear-gradient(135deg, #52C41A 0%, #7ee34a 100%); }
+  .activity-thumb.pink { background: linear-gradient(135deg, #FF69B4 0%, #ff9dd1 100%); }
+  .activity-info { padding: 1rem; }
+  .activity-title { font-weight: 800; font-size: .92rem; margin-bottom: .3rem; }
+  .activity-meta { display: flex; justify-content: space-between; align-items: center; }
+  .activity-grade { font-size: .74rem; font-weight: 700; color: var(--medium-gray); }
+  .btn-play {
+    background: var(--sky-blue); color: var(--white); border: none;
+    padding: .3rem .9rem; border-radius: 50px; font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: .78rem; cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-play:hover { background: var(--info-blue); }
+
+  /* ─── VIDEOS ─── */
+  .videos-section { background: var(--white); }
+  .videos-scroll { display: flex; gap: 1.2rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
+  .videos-scroll::-webkit-scrollbar { display: none; }
+  .video-card {
+    flex: 0 0 240px; background: var(--white); border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card); overflow: hidden; cursor: pointer;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .video-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+  .video-thumb {
+    height: 135px; display: flex; align-items: center; justify-content: center;
+    position: relative; font-size: 2.5rem;
+  }
+  .video-thumb.v1 { background: linear-gradient(135deg, #4A90E2, #74b5f7); }
+  .video-thumb.v2 { background: linear-gradient(135deg, #FF8C42, #ffb87a); }
+  .video-thumb.v3 { background: linear-gradient(135deg, #52C41A, #86e84a); }
+  .video-thumb.v4 { background: linear-gradient(135deg, #FF69B4, #ff9dd1); }
+  .play-btn {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.15);
+  }
+  .play-btn::after {
+    content: '▶'; font-size: 2.2rem; color: rgba(255,255,255,0.9);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .video-info { padding: .9rem; }
+  .video-title { font-weight: 800; font-size: .88rem; margin-bottom: .35rem; }
+  .video-meta { display: flex; justify-content: space-between; }
+  .video-dur { font-size: .74rem; color: var(--medium-gray); font-weight: 600; }
+  .btn-watch {
+    background: var(--warm-orange); color: var(--white); border: none;
+    padding: .28rem .8rem; border-radius: 50px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .76rem; cursor: pointer;
+  }
+  .view-all {
+    display: inline-flex; align-items: center; gap: .4rem;
+    color: var(--sky-blue); font-weight: 800; font-size: .9rem;
+    margin-top: 1.2rem; text-decoration: none; cursor: pointer;
+  }
+  .view-all:hover { text-decoration: underline; }
+
+  /* ─── TESTIMONIALS ─── */
+  .testimonials-section { background: var(--light-orange-acc); }
+  .testimonial-slider { position: relative; max-width: 680px; margin: 0 auto; }
+  .testimonial-card {
+    background: var(--white); border-radius: 24px; padding: 2.5rem;
+    box-shadow: var(--shadow-card); text-align: center;
+  }
+  .stars { font-size: 1.5rem; margin-bottom: 1rem; color: var(--sunny-yellow); }
+  .testimonial-text { font-size: 1.05rem; font-weight: 600; line-height: 1.7; color: var(--dark-charcoal); margin-bottom: 1.4rem; font-style: italic; }
+  .testimonial-author { font-weight: 800; font-size: .9rem; color: var(--medium-gray); }
+  .slider-nav { display: flex; justify-content: center; gap: .8rem; margin-top: 1.5rem; }
+  .slider-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--medium-gray); border: none; cursor: pointer;
+    transition: background .2s, transform .2s;
+  }
+  .slider-dot.active { background: var(--sky-blue); transform: scale(1.3); }
+
+  /* ─── FEATURES ─── */
+  .features-section { background: var(--white); }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+  .feature-card {
+    background: var(--light-blue-bg); border-radius: var(--radius-card);
+    padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: .7rem;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+  .feature-icon { font-size: 2.4rem; }
+  .feature-title { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.05rem; }
+  .feature-desc { font-size: .88rem; color: var(--medium-gray); font-weight: 600; line-height: 1.5; }
+
+  /* ─── CTA BANNER ─── */
+  .cta-banner {
+    background: linear-gradient(135deg, var(--sky-blue) 0%, #2E6DB4 100%);
+    color: var(--white); text-align: center; padding: 5rem 5vw;
+    position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: '🌟'; font-size: 14rem; position: absolute;
+    right: -3rem; top: -3rem; opacity: .08; line-height: 1;
+  }
+  .cta-banner h2 { font-family: 'Baloo 2', cursive; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: .8rem; }
+  .cta-banner p { font-size: 1.1rem; font-weight: 600; opacity: .85; margin-bottom: 2rem; }
+  .btn-cta-white {
+    background: var(--white); color: var(--sky-blue);
+    border: none; padding: 1rem 2.8rem; border-radius: var(--radius-btn);
+    font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.1rem;
+    cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .btn-cta-white:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
+  .cta-note { font-size: .82rem; opacity: .7; margin-top: .9rem; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark-charcoal); color: var(--white);
+    padding: 3.5rem 5vw 2rem;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+  .footer-brand .nav-logo { color: var(--white); margin-bottom: 1rem; display: inline-flex; }
+  .footer-brand p { font-size: .88rem; color: rgba(255,255,255,0.55); font-weight: 600; line-height: 1.6; }
+  .footer-col h4 { font-weight: 800; font-size: .9rem; margin-bottom: 1rem; color: rgba(255,255,255,0.8); }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+  .footer-col a { font-size: .85rem; color: rgba(255,255,255,0.5); text-decoration: none; font-weight: 600; transition: color .2s; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: .8rem; color: rgba(255,255,255,0.4); font-weight: 600; }
+  .footer-safe { display: flex; gap: .6rem; }
+  .safe-badge {
+    background: rgba(255,255,255,0.08); border-radius: 50px;
+    padding: .3rem .8rem; font-size: .74rem; font-weight: 700; color: rgba(255,255,255,0.5);
+    display: flex; align-items: center; gap: .4rem;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero-floaties { display: none; }
+    .subject-tiles { grid-template-columns: repeat(3, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .subject-tiles { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <span class="owl">🦉</span> Kivora<span class="dot">.</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Subjects</a></li>
+    <li><a href="#">Grade Levels</a></li>
+    <li><a href="#">Games</a></li>
+    <li><a href="#">Stories</a></li>
+    <li><a href="#">For Parents</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-search">🔍</button>
+    <button class="btn-signin">Sign In</button>
+    <button class="btn-join">Join Free</button>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot-badge"></span> Ages 3–10 · Pre-K to Grade 5</div>
+    <h1>
+      <span class="accent">Learn</span> Through Play,<br>
+      <span class="accent2">Create</span> Through Learning
+    </h1>
+    <p class="hero-sub">
+      5,000+ interactive activities, games, videos and stories — crafted by educators for curious young minds.
+    </p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#">🚀 Start Free Trial</a>
+      <a class="btn-secondary" href="#">▶ How It Works</a>
+    </div>
+    <p class="hero-no-cc">✓ No credit card required &nbsp;·&nbsp; ✓ Cancel anytime</p>
+  </div>
+
+  <div class="hero-floaties">
+    <div class="floaty-card"><span class="emoji">🧮</span> Math<small>1,500+ Skills</small></div>
+    <div class="floaty-card"><span class="emoji">📚</span> Reading<small>1,000+ Skills</small></div>
+    <div class="floaty-card"><span class="emoji">🔬</span> Science<small>800+ Skills</small></div>
+    <div class="floaty-card"><span class="emoji">🎨</span> Arts<small>600+ Skills</small></div>
+  </div>
+</section>
+
+<!-- ─── GRADE LEVELS ─── -->
+<section class="grades-section">
+  <div class="section-label">Choose Your Level</div>
+  <h2 class="section-title">Every Child's Journey Starts Here</h2>
+  <p class="section-sub">Select a grade to explore age-perfect learning adventures</p>
+  <div class="grade-grid">
+    <div class="grade-card">
+      <div class="grade-emoji">🌱</div>
+      <div class="grade-name">Pre-K</div>
+      <div class="grade-age">Ages 3–4</div>
+      <div class="grade-count"><span>200+</span> Skills</div>
+      <button class="btn-start">Start →</button>
+    </div>
+    <div class="grade-card">
+      <div class="grade-emoji">⭐</div>
+      <div class="grade-name">Kindergarten</div>
+      <div class="grade-age">Ages 5–6</div>
+      <div class="grade-count"><span>250+</span> Skills</div>
+      <button class="btn-start">Start →</button>
+    </div>
+    <div class="grade-card">
+      <div class="grade-emoji">🚀</div>
+      <div class="grade-name">Grade 1</div>
+      <div class="grade-age">Ages 6–7</div>
+      <div class="grade-count"><span>300+</span> Skills</div>
+      <button class="btn-start">Start →</button>
+    </div>
+    <div class="grade-card">
+      <div class="grade-emoji">🌍</div>
+      <div class="grade-name">Grade 2</div>
+      <div class="grade-age">Ages 7–8</div>
+      <div class="grade-count"><span>320+</span> Skills</div>
+      <button class="btn-start">Start →</button>
+    </div>
+    <div class="grade-card">
+      <div class="grade-emoji">🧩</div>
+      <div class="grade-name">Grade 3</div>
+      <div class="grade-age">Ages 8–9</div>
+      <div class="grade-count"><span>350+</span> Skills</div>
+      <button class="btn-start">Start →</button>
+    </div>
+    <div class="grade-card">
+      <div class="grade-emoji">🏆</div>
+      <div class="grade-name">Grade 4</div>
+      <div class="grade-age">Ages 9–10</div>
+      <div class="grade-count"><span>380+</span> Skills</div>
+      <button class="btn-start">Start →</button>
+    </div>
+    <div class="grade-card">
+      <div class="grade-emoji">💡</div>
+      <div class="grade-name">Grade 5</div>
+      <div class="grade-age">Ages 10–11</div>
+      <div class="grade-count"><span>400+</span> Skills</div>
+      <button class="btn-start">Start →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SUBJECTS ─── -->
+<section class="subjects-section">
+  <div class="section-label">Explore Subjects</div>
+  <h2 class="section-title">5 Worlds of Discovery</h2>
+  <p class="section-sub">Tap a subject to dive in</p>
+  <div class="subject-tiles">
+    <div class="subject-tile math">
+      <span class="subject-icon">🔢</span>
+      <span class="subject-name">Math</span>
+      <span class="subject-count">1,500+ Skills</span>
+      <a class="subject-link" href="#">Explore →</a>
+    </div>
+    <div class="subject-tile reading">
+      <span class="subject-icon">📖</span>
+      <span class="subject-name">Reading</span>
+      <span class="subject-count">1,000+ Skills</span>
+      <a class="subject-link" href="#">Explore →</a>
+    </div>
+    <div class="subject-tile science">
+      <span class="subject-icon">🔭</span>
+      <span class="subject-name">Science</span>
+      <span class="subject-count">800+ Skills</span>
+      <a class="subject-link" href="#">Explore →</a>
+    </div>
+    <div class="subject-tile social">
+      <span class="subject-icon">🌏</span>
+      <span class="subject-name">Social Studies</span>
+      <span class="subject-count">500+ Skills</span>
+      <a class="subject-link" href="#">Explore →</a>
+    </div>
+    <div class="subject-tile arts">
+      <span class="subject-icon">🎨</span>
+      <span class="subject-name">Creative Arts</span>
+      <span class="subject-count">600+ Skills</span>
+      <a class="subject-link" href="#">Explore →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRENDING ─── -->
+<section class="trending-section">
+  <div class="section-label">Hot Right Now</div>
+  <h2 class="section-title">Trending Activities This Week</h2>
+  <p class="section-sub">Jump into what kids are loving most</p>
+  <div class="activity-carousel">
+    <div class="activity-card">
+      <div class="activity-thumb blue">🔢</div>
+      <div class="activity-info">
+        <div class="activity-title">Counting 1–10</div>
+        <div class="activity-meta">
+          <span class="activity-grade">Pre-K</span>
+          <button class="btn-play">▶ Play</button>
+        </div>
+      </div>
+    </div>
+    <div class="activity-card">
+      <div class="activity-thumb yellow">🔤</div>
+      <div class="activity-info">
+        <div class="activity-title">Letter Sounds</div>
+        <div class="activity-meta">
+          <span class="activity-grade">Kindergarten</span>
+          <button class="btn-play">▶ Play</button>
+        </div>
+      </div>
+    </div>
+    <div class="activity-card">
+      <div class="activity-thumb orange">➕</div>
+      <div class="activity-info">
+        <div class="activity-title">Addition Fun</div>
+        <div class="activity-meta">
+          <span class="activity-grade">Grade 1</span>
+          <button class="btn-play">▶ Play</button>
+        </div>
+      </div>
+    </div>
+    <div class="activity-card">
+      <div class="activity-thumb green">🌿</div>
+      <div class="activity-info">
+        <div class="activity-title">Plant Life Cycle</div>
+        <div class="activity-meta">
+          <span class="activity-grade">Grade 2</span>
+          <button class="btn-play">▶ Play</button>
+        </div>
+      </div>
+    </div>
+    <div class="activity-card">
+      <div class="activity-thumb pink">✏️</div>
+      <div class="activity-info">
+        <div class="activity-title">Story Builder</div>
+        <div class="activity-meta">
+          <span class="activity-grade">Grade 3</span>
+          <button class="btn-play">▶ Play</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── POPULAR VIDEOS ─── -->
+<section class="videos-section">
+  <div class="section-label">Watch & Learn</div>
+  <h2 class="section-title">Popular Videos</h2>
+  <p class="section-sub">Fun educational videos kids actually want to watch</p>
+  <div class="videos-scroll">
+    <div class="video-card">
+      <div class="video-thumb v1"><div class="play-btn"></div>🎵</div>
+      <div class="video-info">
+        <div class="video-title">Phonics Song</div>
+        <div class="video-meta">
+          <span class="video-dur">⏱ 3:45</span>
+          <button class="btn-watch">Watch</button>
+        </div>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb v2"><div class="play-btn"></div>📖</div>
+      <div class="video-info">
+        <div class="video-title">Story Time</div>
+        <div class="video-meta">
+          <span class="video-dur">⏱ 8:30</span>
+          <button class="btn-watch">Watch</button>
+        </div>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb v3"><div class="play-btn"></div>🔬</div>
+      <div class="video-info">
+        <div class="video-title">Cool Science</div>
+        <div class="video-meta">
+          <span class="video-dur">⏱ 5:20</span>
+          <button class="btn-watch">Watch</button>
+        </div>
+      </div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb v4"><div class="play-btn"></div>🎨</div>
+      <div class="video-info">
+        <div class="video-title">Draw With Us</div>
+        <div class="video-meta">
+          <span class="video-dur">⏱ 6:10</span>
+          <button class="btn-watch">Watch</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="view-all" href="#">View All Videos →</a>
+</section>
+
+<!-- ─── TESTIMONIALS ─── -->
+<section class="testimonials-section">
+  <div class="section-label">Parent Stories</div>
+  <h2 class="section-title" style="text-align:center">Families Love Kivora</h2>
+  <p class="section-sub" style="text-align:center">Real results from real parents</p>
+  <div class="testimonial-slider">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"My daughter loves Kivora! She's improving so fast and actually asks to do more activities. Highly recommended!"</p>
+      <div class="testimonial-author">— Sarah Johnson, Mom of Emma (Age 6)</div>
+    </div>
+    <div class="slider-nav">
+      <button class="slider-dot active"></button>
+      <button class="slider-dot"></button>
+      <button class="slider-dot"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURES ─── -->
+<section class="features-section">
+  <div class="section-label">Why Kivora</div>
+  <h2 class="section-title">Built for Young Learners</h2>
+  <p class="section-sub">Everything a parent and educator could need</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">🧠</span>
+      <div class="feature-title">Adaptive Learning</div>
+      <div class="feature-desc">Adjusts difficulty to your child's individual level and pace</div>
+    </div>
+    <div class="feature-card" style="background:var(--light-yellow-hl)">
+      <span class="feature-icon">📊</span>
+      <div class="feature-title">Progress Tracking</div>
+      <div class="feature-desc">See real-time improvements with parent dashboard reports</div>
+    </div>
+    <div class="feature-card" style="background:var(--light-orange-acc)">
+      <span class="feature-icon">🏅</span>
+      <div class="feature-title">Rewards & Badges</div>
+      <div class="feature-desc">Kids earn achievements that celebrate every milestone</div>
+    </div>
+    <div class="feature-card" style="background:var(--light-green-suc)">
+      <span class="feature-icon">🛡️</span>
+      <div class="feature-title">100% Safe</div>
+      <div class="feature-desc">COPPA-compliant, no ads, no external links — ever</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA BANNER ─── -->
+<div class="cta-banner">
+  <h2>Ready to Start Your Child's Adventure?</h2>
+  <p>Join thousands of families learning with Kivora today</p>
+  <button class="btn-cta-white">🎉 Start Free — No Card Needed</button>
+  <p class="cta-note">7-day free trial · Cancel anytime · Loved by 50,000+ families</p>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#">🦉 Kivora<span class="dot">.</span></a>
+      <p>Learn Through Play, Create Through Learning. A safe, joyful learning space for children aged 3–10.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Learn</h4>
+      <ul>
+        <li><a href="#">Math</a></li>
+        <li><a href="#">Reading</a></li>
+        <li><a href="#">Science</a></li>
+        <li><a href="#">Social Studies</a></li>
+        <li><a href="#">Creative Arts</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">COPPA Notice</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Kivora Learning. All rights reserved.</p>
+    <div class="footer-safe">
+      <span class="safe-badge">🛡️ COPPA Safe</span>
+      <span class="safe-badge">🚫 Ad-Free</span>
+      <span class="safe-badge">✅ Educator Approved</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Testimonials slider
+  const dots = document.querySelectorAll('.slider-dot');
+  const testimonials = [
+    { text: '"My daughter loves Kivora! She\'s improving so fast and actually asks to do more activities. Highly recommended!"', author: '— Sarah Johnson, Mom of Emma (Age 6)' },
+    { text: '"My son went from struggling with reading to reading full books in just 3 months. Kivora made the difference."', author: '— David Chen, Dad of Lucas (Age 7)' },
+    { text: '"As a Grade 2 teacher I recommend Kivora to all my students\' parents. The curriculum alignment is spot-on."', author: '— Ms. Priya Nair, Grade 2 Teacher' }
+  ];
+  let current = 0;
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      current = i;
+      document.querySelector('.testimonial-text').textContent = testimonials[i].text;
+      document.querySelector('.testimonial-author').textContent = testimonials[i].author;
+      dots.forEach(d => d.classList.remove('active'));
+      dot.classList.add('active');
+    });
+  });
+  setInterval(() => {
+    current = (current + 1) % testimonials.length;
+    dots[current].click();
+  }, 4000);
+</script>
+</body>
+</html>
